@@ -1,41 +1,79 @@
-MATRICOLA:875377
-DOCUMENTAZIONE PROGETTO
+## CPU Virtualizator 
 
-Assunzione: verificare che nel sistema sia installato gcc.
+This C-project abstract the CPU behavior by interpreting instructions written in a file.cvm and executing its content.
 
-Per iniziare, compila i file e ottieni l'eseguibile vm digitando il comando
-make
+## Project files 
 
-Eseguendo invece 
-make clean 
-si ha la possibilità di eliminare i file oggetto precedentemente creati con il comando make
-
--vm.c: è il file sorgente contenete il main del nostro programma. Dentro al main vengono richiamati esegui e stampa, ovvero i due comandi che possono essere eseguiti sui file .cvm. Stampa ed esegui sono contenuti in stampa.c ed esegui.c (gli altri due file sorgenti).
-vm.c da errore nel caso i numeri dei parametri da riga di comando non siano 3 e non siano quelli adibiti al funzionamento del programma. Deve quindi per forza esserci il seguente formato ogni volta che lanciamo un comando da terminale: 
-./vm stampa file.cvm
-./vm esegui file.cvm
-
-
--leggi.c: è il file sorgente dalla quale viene tradotto il codice assembly scritto riga per riga all'interno del file in un "formato" a noi manipolabile. Nella funzione read viene innanzitutto letta la dimensione dell'array che dovremo andare a creare leggendo la prima riga del file significativa (no lettere né ;), fino a quando non avrà un valore valido. Dopodiché si andrà ad allocare dinamicamente il nostro array e ad assegnarli tutte le istruzioni macchina contenute nel file. 
-Si effettuano i seguenti controlli:
--se effettivamente esiste il file;
--se la malloc per l'allocazione dinamica è andata a buon fine;
--se il file contiene più righe di quante specificate ad inizio file;
--se all'interno del file sono presenti dei caratteri non accettati;
--se i parametri delle istruzioni di salto sforano le dimensioni del nostro array;
--se nel file è contenuta un'istruzione non valida.
+.
+│   doc.md
+│   Makefile
+│
+├───include
+│       execute.h
+│       print.h
+│       read.h
+│
+├───src
+        esegui.c
+        leggi.c
+        stampa.c
+        vm.c
 
 
--stampa.c: dopo aver preso tutte le istruzioni contenute all'interno del file da read stampa non farà altro che stampare tutte le istruzioni secondo il formato prestabilito:
-	[posizione all'interno dell'array] ISTRUZIONE parametri dell'istruzione/funzione 
-Alla fine di read però è necessario liberare la memoria allocata dinamicamente prima da read() e quindi si andrà a fare una free(programma) alla fine, quando programma non servirà più.
+## What do you need?
+
+This project make use of the compiler gcc, so it is required before its usage.
+To install gcc:
+
+MacOS:
+1. Install Homebrew by using the following 
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+2. brew install gcc 
+
+Linux:
+`sudo apt-get install gcc`
+
+Windows:
+Install Cygwin from https://cygwin.com/
+
+To correctly work, you must provide a correctly formatted .cvm file.
+
+## How to write a .cvm file 
+The file can contains all the following instructions and the number of lines must be specified as the first valid line.
+Every instruction must end with a `;`.
+You are allowed to insert comments after `;`.
+
+The following is the list of command you can use to write a program. 
+
+| Command name | Command number | First parameter   | Second parameter  | Description                                                                                                                                                                                                        |  
+|--------------|----------------|-------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|                                                                                                      
+| HALT         | 0              |         -         |         -         | terminate program                                                                                                                                                                                                  |
+| DISPLAY      | 1              | 0-31 (reg R0-R31) |         -         | print on stdout value of the registers (-1: all of them)                                                                                                                                                           |
+| PRINT STACK  | 2              |       number      |         -         | print on stdout stack values                                                                                                                                                                                       |
+| PUSH         | 10             | 0-31 (reg R0-R31) |         -         | insert on the stack the value of the registry defined by pos, and increment the stack pointer. Terminate if stack overflow                                                                                         |
+| POP          | 11             | 0-31 (reg R0-R31) |         -         | copy the value taken from the stack (after the decreasing) in the registry. Terminates if stack underflow                                                                                                          |
+| MOV          | 12             | 0-31 (reg R0-R31) |       number      | copy the value in the registry                                                                                                                                                                                     |
+| CALL         | 20             |        pos        |         -         | substitute instruction pointer with value in pos                                                                                                                                                                   |
+| RET          | 21             |         -         |         -         | execute a call to a subroutine. Terminate if stack overflow                                                                                                                                                        | 
+| JMP          | 22             |        pos        |         -         | return from a subroutine. Terminate if stack underflow                                                                                                                                                             |
+| JZ           | 23             |        pos        |         -         | substitute the value of the instruction pointer with the value in pos1 if the value of the registry in pos2 is 0                                                                                                   |
+| JPOS         | 24             |        pos        |         -         | substitute the value of the instruction pointer with the value in pos1 if the value of the registry in pos2 is positive                                                                                            |
+| JNEG         | 25             |        pos        |         -         | substitute the value of the instruction pointer with the value in pos1 if the value of the registry in pos2 is negative                                                                                            |
+| ADD          | 30             | 0-31 (reg R0-R31) | 0-31 (reg R0-R31) | integer sum between registry value in pos1 and pos2. The result of the sum is copied in the registry identified by pos3. Terminate if aritmethic overflow or underflow                                             | 
+| SUB          | 31             | 0-31 (reg R0-R31) | 0-31 (reg R0-R31) | integer subtraction between registry value in pos1 and pos2. The result of the subtraction is copied in the registry identified by pos3. Terminate if aritmethic overflow or underflow                             |
+| MUL          | 32             | 0-31 (reg R0-R31) | 0-31 (reg R0-R31) | integer multiplication between registry value in pos1 and pos2. The result of the multiplication is copied in the registry identified by pos3. Terminate if aritmethic overflow or underflow                       |
+| DIV          | 33             | 0-31 (reg R0-R31) | 0-31 (reg R0-R31) | integer division between registry value in pos1 and pos2. The result of the division is copied in the registry identified by pos3. Terminate if aritmethic overflow or underflow or registry in pos2 is equal to 0 |
+
+## How to run the program? 
+
+Place yourself into the root folder of the projet and execute make.
+After then you can execute VM to perform the features below. 
 
 
--esegui.c: infine nel sorgente esegui.c sono contenute tutte le istruzioni del linguaggio possibili e ne sono implementate le loro funzionalità. Inoltre è anche il posto in cui sono dichiarati stack, registri, ip ed sp, ovvero le variabili fondamentali per fare funzionare il programma, ciò su cui lavorano le funzioni. 
-Tutte le istruzioni sono implementate inizialmente sotto forma di funzioni.
-Nella funzione esegui è implementato il funzionamento del programma che leggiamo dal file: 
--viene letto il file e messo all'interno di programma (array dinamico);
--vengono inizializzati stack (array) e r(array) ed ip e sp;
--tramite uno switch all'interno di un while vengono lette tutte le istruzioni che sono associate al loro codice macchina e quando verranno incontrate verranno richiamate ed eseguite, portando così, se il codice è scritto correttamente all'interno del file, al risultato corretto che ci si aspettava dal programma. Alla fine di esegui come per read è necessario deallocare l'array che si era andato ad allocare dinamicamente per non incontrare problemi di memory leaks.
+## Features 
 
-Entrambe esegui che read sono state pensate per un eventuale aggiornamento facilitato: nel caso si volessero aggiungere istruzioni si può facilmente aggiungere il codice macchina all'interno dello switch di read ed esegui e aggiungere la corrispettiva implementazione dell'istruzione in esegui.
+Once a file.cvm correctly formatted is created, you can:
+
+* Execute the program by using  `VM execute filename.cvm`;
+* Print the content of the file by using `VM print filename.cvm`.
+
