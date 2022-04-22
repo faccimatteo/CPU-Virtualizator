@@ -6,7 +6,6 @@ This C-project abstract the CPU behavior by interpreting instructions written in
 
 ```
 project
-│   doc.md
 │   Makefile
 │
 └───include
