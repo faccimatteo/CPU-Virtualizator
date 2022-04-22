@@ -1,0 +1,14 @@
+13 ; Programma che verifica l'overflow di una sottrazione
+12 ; MOV nel registro 0 di -2147483648
+0
+-2147483648
+12 ; MOV nel registro 1 di 1
+1
+00000000001
+81; SUB tra i valori nei due registri, la quale sottrazione dà overflow
+0
+1
+2
+1 ; DISPLAY del valore della sottrazione
+2
+0 ; HALT

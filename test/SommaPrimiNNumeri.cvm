@@ -1,0 +1,36 @@
+28; somma dei primi n numeri
+12 ;MOV R0 9
+0 
+10
+20 ;CALL 8
+8
+                 1;DISPLAY R1
+1
+0 ;HALT
+12 ;MOV R1 0 
+1
+0
+             12; MOV R2 1
+2
+1
+
+
+            ;;;;
+
+75 ;JNEG 27 RO
+27
+0
+80 ;ADD R1 R0 R1 
+  1
+0
+
+1
+        81 ;SUB R0 R2 R0
+0
+2
+0
+22 ;JMP 14
+
+
+14
+21 ;RET

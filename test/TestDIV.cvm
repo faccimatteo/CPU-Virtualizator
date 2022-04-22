@@ -1,0 +1,16 @@
+;Test per verificare se un numero è primo. Se il numero è primo metto R[31] a 1, altrimenti a 0
+;inizio programma
+13
+12; MOV R0 10
+0
+10
+12; MOVE R1 2
+1
+2
+83; DIV R0 R1 R2
+0
+1
+2
+1; DISPLAY R2
+2
+0

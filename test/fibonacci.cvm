@@ -1,0 +1,53 @@
+51  ; Programma che stampa i primi n numeri della sequenza di fibonacci
+12  ;0 	 MOV R0 46
+0   ;1
+46  ;2   n=46
+12  ;3   MOV R2 1
+2   ;4   a = 2 salvato nel registro 2
+2   ;5
+12  ;6   MOV R3 1 
+3   ;7
+1   ;8   b = 1 salvato nel registro 3
+12  ;9   MOV R10 1
+10  ;10
+1   ;11  costante 1 salvata nel registro 10
+81  ;12  SUB R0 R10 R0
+0   ;13
+10  ;14  n - 1 per evitare controllo uguaglianza if
+0   ;15
+;	 Stampo i primi 2 numeri (a) e (b)
+1   ;16  DISPLAY R2
+3   ;17  stampa b
+1   ;18  DISPLAY R3
+2   ;19  stampa a
+12  ;20  MOV R1 R2
+1   ;21  indice i salvato nel registro 1 utilizzato per ciclo while
+2   ;22  i = 2
+81  ;23  SUB R0 R1 R4 <- init_for
+0   ;24
+1   ;25  calcolo condizione if
+4   ;26
+73  ;27  JNEG 50 R4
+50  ;28  JMP exit for
+4   ;29
+80  ;30  ADD R2 R3 R4
+2   ;31
+3   ;32  
+4   ;33  R4 =  a + b
+10  ;34  PUSH R2 (a in stack)
+2   ;35  
+11  ;36  POP R3 (b=a)
+3   ;37  
+10  ;38  PUSH R4
+4   ;39  
+11  ;40  POP R3 (a=R4)
+2   ;41  
+1   ;42  DISPLAY R4
+4   ;43  
+80  ;44  ADD R10 R1 R1 (I++)
+10  ;45
+1   ;46  
+1   ;47  
+22  ;48  JUMP 24 (init_for)
+23  ;49 
+0   ;50  HALT ->exit for

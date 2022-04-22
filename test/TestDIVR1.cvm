@@ -1,0 +1,15 @@
+;test sul controllo del primo registro nell'operazione DIV
+13;
+12; MOV R0 2
+0;
+2;
+12; MOV R1 2147483647111111111 
+1;
+2147483647111111111;
+83; DIV R0 R1 R2
+0;
+1;
+2;
+1; DISPLAY R2
+2;
+0;

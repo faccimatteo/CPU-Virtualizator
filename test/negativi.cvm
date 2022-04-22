@@ -1,0 +1,15 @@
+;esegue una sottrazione (tra R0 e R1) e ne mostra il risultato 
+13; Dim Array
+           12 ; MOV R0 -20
+     0
+-20;
+ 12 ; MOV R1 1
+ 1
+ 1
+81 ; SUB R0 R1 IN R4
+          0
+1
+4
+1 ; DISPLAY R4
+4
+0 ; HALT

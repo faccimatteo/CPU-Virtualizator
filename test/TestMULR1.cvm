@@ -1,0 +1,15 @@
+;test sul controllo del primo registro nell'operazione MUL
+13
+12; MOV R0 3
+0
+3
+12; MOV R1 4
+1
+4
+82 MUL R31 R0 R1
+31
+0
+1
+1 DISPLAY R31
+31
+0
