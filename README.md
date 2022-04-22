@@ -4,20 +4,22 @@ This C-project abstract the CPU behavior by interpreting instructions written in
 
 ## Project files 
 
-.
+```
+project
 │   doc.md
 │   Makefile
 │
-├───include
+└───include
 │       execute.h
 │       print.h
 │       read.h
 │
-├───src
+└───src
         esegui.c
         leggi.c
         stampa.c
         vm.c
+```
 
 
 ## What do you need?
