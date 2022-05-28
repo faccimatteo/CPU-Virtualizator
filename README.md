@@ -27,12 +27,12 @@ This project make use of the compiler gcc, so it is required before its usage.
 To install gcc:
 
 MacOS:
-1. Install Homebrew by using the following 
-`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+1. Install Homebrew by using the following<br> 
+`$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 2. brew install gcc 
 
 Linux:
-`sudo apt-get install gcc`
+`$ sudo apt-get install gcc`
 
 Windows:
 Install Cygwin from https://cygwin.com/
