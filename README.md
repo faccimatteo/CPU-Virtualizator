@@ -68,7 +68,7 @@ The following is the list of command you can use to write a program.
 ## How to run the program? 
 
 Place yourself into the root folder of the projet and execute make.
-After then you can execute VM to perform the features below. 
+After that you can execute VM to perform the features below. 
 
 
 ## Features 
